@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package guiproj;
-import bdcon.BDCon;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -121,11 +120,11 @@ public class TelaInicial extends JFrame{
             System.out.println("Arquivo não existe");
         }
         try {
-             BDCon.insereInformacao(nome, categoria, estado, quantidade_int, preco_float);
+             BDConnection.insereInformacao(nome, categoria, estado, quantidade_int, preco_float);
         } catch (Exception e) {
             System.out.println(e);
         }
         this.dispose();
-        new TelaMenus();
+        new TelaSecundaria();
     }
 }

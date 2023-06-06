@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package bdcon;
+
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -13,10 +14,10 @@ import java.sql.SQLException;
  *
  * @author professores
  */
-public class BDCon_2 {
+public class BDConnection {
   
     
-    public static void insereFornecedor(String nome, int telefone, String forma, String endereco, float reputacao) throws SQLException, ClassNotFoundException{
+    public static void insereInformacao(String nome, String categoria, String estado, int quantidade, float preco) throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
         String urlJDBC = "jdbc:mysql://localhost:3306/cadhard";
         Connection conexao = (Connection) DriverManager.getConnection(urlJDBC,
@@ -25,9 +26,8 @@ public class BDCon_2 {
        
         Statement comando = (Statement) conexao.createStatement();
         
-        comando.execute("INSERT INTO fornecedor_hardware (nome_fornecedor, telefone_fornecedor, forma_contato, endereco_fornecedor, reputacao_fornecedor) VALUES"
-                + "('"+nome+"','"+telefone+"','"+forma+"','"+endereco+"','"+reputacao+"')");
-        
+        comando.execute("INSERT INTO informacao_hardware (nome_peca, categoria, estado, quantidade, preco) VALUES"
+                + "('"+nome+"','"+categoria+"','"+estado+"','"+quantidade+"','"+preco+"')");
         
         conexao.close();
         

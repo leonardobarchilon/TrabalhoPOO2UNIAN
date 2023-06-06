@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package guiproj;
-import bdcon.BDCon_2;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,7 +19,7 @@ import javax.swing.*;
  * 
  *  1° passo
  */
-public class TelaMenus extends JFrame{
+public class TelaSecundaria extends JFrame{
     
     public JLabel lblNome, lblTelefone, lblForma, lblEndereco, lblReputacao;
     public JTextField txtNome;
@@ -33,7 +32,7 @@ public class TelaMenus extends JFrame{
     
     private String[] formaContato = {"WhatsApp", "Ligação"};
     
-    public TelaMenus() throws ParseException{
+    public TelaSecundaria() throws ParseException{
         
         setLayout(null);
         
@@ -56,7 +55,7 @@ public class TelaMenus extends JFrame{
                 try{
                     cliqueBtnEnviar();
                 } catch (ParseException ex) {
-                    Logger.getLogger(TelaMenus.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TelaSecundaria.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -122,7 +121,7 @@ public class TelaMenus extends JFrame{
             System.out.println("Arquivo não existe");
         }
         try {
-             BDCon_2.insereFornecedor(nome, telefone_int, forma, endereco, reputacao_float);
+             BDConnection_2.insereFornecedor(nome, telefone_int, forma, endereco, reputacao_float);
         } catch (Exception e) {
             System.out.println(e);
         }

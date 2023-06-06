@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package main;
 
-import guiproj.TelaInicial;
+import Login;
+
 import java.text.ParseException;
 
 
@@ -15,7 +15,6 @@ import java.text.ParseException;
 public class Main {
     
     public static void main(String[] args) throws ParseException{
-        new TelaInicial();
-
+        new Login();
     }    
 }
