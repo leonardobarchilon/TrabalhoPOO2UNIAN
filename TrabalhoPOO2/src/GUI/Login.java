@@ -1,3 +1,5 @@
+package GUI;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +10,7 @@ import java.util.logging.Logger;
 public class Login extends JFrame {
     public JLabel lblNome, lblSenha;
     public JTextField txtNome, txtSenha;
-    public JButton btnEnviar;
+    public JButton btnEnviar, btnCadastrar;
 
     public Login() throws ParseException {
         setLayout(null);
@@ -16,7 +18,8 @@ public class Login extends JFrame {
         txtNome = new JTextField();
         lblSenha = new JLabel("Senha:");
         txtSenha = new JTextField();
-        btnEnviar = new JButton("Enviar");
+        btnEnviar = new JButton("login");
+        btnCadastrar = new JButton("Cadastrar");
 
         btnEnviar.addActionListener(new ActionListener() {
             @Override
@@ -24,7 +27,7 @@ public class Login extends JFrame {
                 try {
                     cliqueBtnEnviar();
                 } catch (ParseException ex) {
-                    Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TelaHardware.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -34,16 +37,18 @@ public class Login extends JFrame {
         lblSenha.setBounds(10, 50, 100, 30);
         txtSenha.setBounds(120, 50, 200, 30);
         btnEnviar.setBounds(10, 90, 200, 30);
+        btnCadastrar.setBounds(10, 130, 200, 30);
 
         getContentPane().add(lblNome);
         getContentPane().add(txtNome);
         getContentPane().add(lblSenha);
         getContentPane().add(txtSenha);
         getContentPane().add(btnEnviar);
+        getContentPane().add(btnCadastrar);
 
         //Especificações da Tela
-        setSize(400, 350);
-        setTitle("Login");
+        setSize(500, 400);
+        setTitle("GUI.Login");
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,11 +59,11 @@ public class Login extends JFrame {
         String senha = txtSenha.getText();
         if(nome.equals("admin") && senha.equals("admin")){
             JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!");
-            new TelaInicial();
+            new TelaHardware();
             dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Login ou senha incorretos!");
         }
-        new TelaInicial();
+        
     }
 }

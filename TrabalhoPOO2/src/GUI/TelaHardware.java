@@ -1,25 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
 
-/**
- *
- * @author professores
- * 
- *  1° passo
- */
-public class TelaInicial extends JFrame{
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+
+public class TelaHardware extends JFrame{
     
     public JLabel lblNome, lblCategoria, lblEstado, lblQuantidade, lblPreco;
     public JTextField txtNome;
@@ -32,7 +30,7 @@ public class TelaInicial extends JFrame{
     private String[] categoriaPeca = {"Servidor", "Desktop", "Notebook"};
     private String[] estadoPeca = {"Novo", "Usado"};
     
-    public TelaInicial() throws ParseException{
+    public TelaHardware() throws ParseException{
         
         setLayout(null);
         
@@ -52,11 +50,7 @@ public class TelaInicial extends JFrame{
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    cliqueBtnEnviar();
-                } catch (ParseException ex) {
-                    Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                insereHardware();
             }
         });
         
@@ -92,39 +86,19 @@ public class TelaInicial extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    
-    private void cliqueBtnEnviar() throws ParseException{
-        String nome = txtNome.getText(),
-               categoria = cmbCategoria.getSelectedItem().toString(),
-               estado = cmbEstado.getSelectedItem().toString(),
-               quantidade = txtQuantidade.getText(),
-               preco = txtPreco.getText();
-        
-        float preco_float = Float.parseFloat(preco);
-        int quantidade_int = Integer.parseInt(quantidade);
-        
-        System.out.println("Nome da Peça: " + nome);
-        System.out.println("Categoria: " + categoria);
-        System.out.println("Estado: " + estado);
-        System.out.println("Quantidade: " + quantidade_int);
-        System.out.println("Preço: " + preco_float);
-        
-        try(PrintWriter pw = new PrintWriter(new File("informacao_hardware"))){
-            pw.println("Nome da Peça: " + nome);
-            pw.println("Categoria: " + categoria);
-            pw.println("Estado: " + estado);
-            pw.println("Quantidade: " + quantidade_int);
-            pw.println("Preço: " + preco_float);
-            
-        }catch(FileNotFoundException e){
-            System.out.println("Arquivo não existe");
-        }
-        try {
-             BDConnection.insereInformacao(nome, categoria, estado, quantidade_int, preco_float);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        this.dispose();
-        new TelaSecundaria();
+
+    private void insereHardware(){
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+        MongoDatabase database = mongoClient.getDatabase("ProjetoPOO2");
+        MongoCollection collection = database.getCollection("Hardware");
+
+        Document document = new Document("nome", txtNome.getText())
+                .append("categoria", cmbCategoria.getSelectedItem().toString())
+                .append("estado", cmbEstado.getSelectedItem().toString())
+                .append("quantidade", txtQuantidade.getText())
+                .append("preco", txtPreco.getText());
+
+        collection.insertOne(document);
+        mongoClient.close();
     }
 }
