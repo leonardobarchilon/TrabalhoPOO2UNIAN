@@ -1,19 +1,11 @@
-package GUI;
+/**
+ *
+ * @author Leonardo Barchilon - Aluno do último período de Ciência da Computação
+ */
+package GUI.fornecedor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.bson.Document;
-
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,7 +13,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class TelaFornecedor extends JFrame {
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+/**
+ * Esta classe representa a tela de adicionar fornecedor.
+ */
+public class AdicionarFornecedor extends JFrame {
 
     public JLabel lblNome, lblTelefone, lblForma, lblEndereco, lblReputacao;
     public JTextField txtNome;
@@ -30,11 +31,15 @@ public class TelaFornecedor extends JFrame {
     public JTextField txtEndereco;
     public JTextField txtReputacao;
     public JComboBox cmbForma;
-    public JButton btnEnviar;
+    public JButton btnEnviar, bntVoltar;
 
     private String[] formaContato = { "WhatsApp", "Ligação" };
 
-    public TelaFornecedor() throws ParseException {
+    /**
+     * Constrói uma instância da classe AdicionarFornecedor.
+     * Configura os componentes da tela e define as ações dos botões.
+     */
+    public AdicionarFornecedor(){
 
         setLayout(null);
 
@@ -50,14 +55,25 @@ public class TelaFornecedor extends JFrame {
         txtReputacao = new JTextField();
 
         btnEnviar = new JButton("Enviar e criar novo cadastro");
+        bntVoltar = new JButton("Voltar");
 
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 insereFornecedor();
+                dispose();
             }
         });
 
+        bntVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuFornecedor();
+                dispose();
+            }
+        });
+
+        // Configurações de posicionamento dos componentes
         lblNome.setBounds(10, 10, 200, 25);
         txtNome.setBounds(130, 10, 200, 25);
         lblTelefone.setBounds(10, 40, 200, 25);
@@ -68,8 +84,10 @@ public class TelaFornecedor extends JFrame {
         txtEndereco.setBounds(130, 100, 200, 25);
         lblReputacao.setBounds(10, 130, 200, 25);
         txtReputacao.setBounds(130, 130, 200, 25);
-        btnEnviar.setBounds(115, 210, 200, 50);
+        btnEnviar.setBounds(115, 180, 200, 50);
+        bntVoltar.setBounds(160, 250, 100, 50);
 
+        // Adiciona os componentes ao painel
         getContentPane().add(lblNome);
         getContentPane().add(txtNome);
         getContentPane().add(lblTelefone);
@@ -81,21 +99,26 @@ public class TelaFornecedor extends JFrame {
         getContentPane().add(lblReputacao);
         getContentPane().add(txtReputacao);
         getContentPane().add(btnEnviar);
+        getContentPane().add(bntVoltar);
 
         // Especificações da Tela
-        setSize(400, 350);
-        setTitle("Tela Secundária");
+        setSize(450, 350);
+        setTitle("Adicionar Fornecedor");
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
-    private void insereFornecedor(){
+    /**
+     * Insere um novo fornecedor no banco de dados com base nos dados fornecidos na tela.
+     */
+    public void insereFornecedor(){
         MongoClient mongoClient = new MongoClient("localhost", 27017);
         MongoDatabase database = mongoClient.getDatabase("ProjetoPOO2");
         MongoCollection<Document> collection = database.getCollection("fornecedor");
 
-        Document document = new Document("nome", txtNome.getText())
+        Document document = new Document("fornecedor", txtNome.getText())
                 .append("telefone", txtTelefone.getText())
                 .append("forma", cmbForma.getSelectedItem().toString())
                 .append("endereco", txtEndereco.getText())
@@ -103,5 +126,7 @@ public class TelaFornecedor extends JFrame {
 
         collection.insertOne(document);
         mongoClient.close();
+        new AdicionarFornecedor();
+        dispose();
     }
 }

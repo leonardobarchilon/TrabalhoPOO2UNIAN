@@ -4,29 +4,37 @@
  */
 package bd;
 
-import org.bson.Document;
-
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
+import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.eq;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.eq;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
- * Esta classe representa uma conexão com o banco de dados MongoDB.
+ * Esta classe representa uma conexão com o banco de dados MongoDB para a coleção "fornecedor".
  */
-public class ConexaoMongoDB {
+public class FornecedorBD {
     private MongoClient mongoClient;
     private MongoDatabase database;
     private MongoCollection<Document> collection;
     
     /**
-     * Constrói uma instância da classe ConexaoMongoDB.
-     * Estabelece a conexão com o banco de dados MongoDB.
+     * Constrói uma instância da classe FornecedorBD.
+     * Estabelece a conexão com o banco de dados MongoDB e a coleção "fornecedor".
      */
-    public ConexaoMongoDB() {
+    public FornecedorBD() {
         mongoClient = new MongoClient("localhost", 27017);
         database = mongoClient.getDatabase("ProjetoPOO2");
-        collection = database.getCollection("usuario");
+        collection = database.getCollection("fornecedor");
     }
 
     /**
@@ -38,11 +46,13 @@ public class ConexaoMongoDB {
     }
 
     /**
-     * Obtém o objeto MongoCollection para a coleção atualmente conectada.
+     * Obtém o objeto MongoCollection para a coleção "fornecedor".
      * @return o objeto MongoCollection
      */
     public MongoCollection<Document> getCollection() {
         return collection;
     }
+
+    
     
 }

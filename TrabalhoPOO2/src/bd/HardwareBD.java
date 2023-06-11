@@ -10,26 +10,25 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-
 /**
- * Esta classe representa uma conexão com o banco de dados MongoDB.
+ * Esta classe representa uma conexão com o banco de dados MongoDB para a coleção "hardware".
  */
-public class ConexaoMongoDB {
+public class HardwareBD {
     private MongoClient mongoClient;
     private MongoDatabase database;
     private MongoCollection<Document> collection;
     
     /**
-     * Constrói uma instância da classe ConexaoMongoDB.
-     * Estabelece a conexão com o banco de dados MongoDB.
+     * Constrói uma instância da classe HardwareBD.
+     * Estabelece a conexão com o banco de dados MongoDB e a coleção "hardware".
      */
-    public ConexaoMongoDB() {
+    public HardwareBD() {
         mongoClient = new MongoClient("localhost", 27017);
         database = mongoClient.getDatabase("ProjetoPOO2");
-        collection = database.getCollection("usuario");
+        collection = database.getCollection("hardware");
     }
 
-    /**
+     /**
      * Obtém o objeto MongoDatabase para o banco de dados atualmente conectado.
      * @return o objeto MongoDatabase
      */
@@ -38,7 +37,7 @@ public class ConexaoMongoDB {
     }
 
     /**
-     * Obtém o objeto MongoCollection para a coleção atualmente conectada.
+     * Obtém o objeto MongoCollection para a coleção "hardware".
      * @return o objeto MongoCollection
      */
     public MongoCollection<Document> getCollection() {

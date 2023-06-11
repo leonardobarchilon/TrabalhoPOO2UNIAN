@@ -1,18 +1,51 @@
+/**
+ *
+ * @author Leonardo Barchilon - Aluno do último período de Ciência da Computação
+ */
 package GUI;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import GUI.hardware.AdicionarHardware;
+import autenticar.Autenticacao;
+
+/**
+ * Esta classe representa a tela de login do sistema.
+ */
 public class Login extends JFrame {
+
     public JLabel lblNome, lblSenha;
     public JTextField txtNome, txtSenha;
     public JButton btnEnviar, btnCadastrar;
 
-    public Login() throws ParseException {
+    private Autenticacao autenticacao;
+
+    /**
+     * Constrói uma instância da classe Login.
+     *
+     * @param autenticacao o objeto Autenticacao usado para autenticar o usuário
+     */
+    public Login(Autenticacao autenticacao) {
+        this.autenticacao = autenticacao;
+    }
+
+    /**
+     * Configura os componentes da tela de login e define as ações dos botões.
+     *
+     * @throws ParseException se ocorrer um erro durante a análise do formato de data
+     */
+    public void Logar() throws ParseException {
+        setTitle("Login");
         setLayout(null);
         lblNome = new JLabel("Nome:");
         txtNome = new JTextField();
@@ -27,17 +60,24 @@ public class Login extends JFrame {
                 try {
                     cliqueBtnEnviar();
                 } catch (ParseException ex) {
-                    Logger.getLogger(TelaHardware.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AdicionarHardware.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
 
-        lblNome.setBounds(10, 10, 100, 30);
-        txtNome.setBounds(120, 10, 200, 30);
-        lblSenha.setBounds(10, 50, 100, 30);
-        txtSenha.setBounds(120, 50, 200, 30);
-        btnEnviar.setBounds(10, 90, 200, 30);
-        btnCadastrar.setBounds(10, 130, 200, 30);
+        btnCadastrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cliqueBntCadastrar();
+            }
+        });
+
+        lblNome.setBounds(130, 10, 100, 30);
+        txtNome.setBounds(130, 40, 200, 30);
+        lblSenha.setBounds(130, 90, 100, 30);
+        txtSenha.setBounds(130, 120, 200, 30);
+        btnEnviar.setBounds(130, 200, 200, 30);
+        btnCadastrar.setBounds(130, 250, 200, 30);
 
         getContentPane().add(lblNome);
         getContentPane().add(txtNome);
@@ -46,24 +86,39 @@ public class Login extends JFrame {
         getContentPane().add(btnEnviar);
         getContentPane().add(btnCadastrar);
 
-        //Especificações da Tela
-        setSize(500, 400);
-        setTitle("GUI.Login");
+        // Especificações da Tela
+        setSize(450, 350);
+        setTitle("Login");
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-    private void cliqueBtnEnviar() throws ParseException{
+
+    /**
+     * Manipula o clique do botão "Enviar".
+     *
+     * @throws ParseException se ocorrer um erro durante a análise do formato de data
+     */
+    private void cliqueBtnEnviar() throws ParseException {
         String nome = txtNome.getText();
         String senha = txtSenha.getText();
-        if(nome.equals("admin") && senha.equals("admin")){
-            JOptionPane.showMessageDialog(null, "Login efetuado com sucesso!");
-            new TelaHardware();
+
+        if (autenticacao.autenticarUsuario(nome, senha)) {
+            JOptionPane.showMessageDialog(Login.this, "Login realizado com sucesso");
+            new Home();
             dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "Login ou senha incorretos!");
+
+        } else {
+            JOptionPane.showMessageDialog(Login.this, "Usuário ou senha inválidos");
         }
-        
+    }
+
+    /**
+     * Manipula o clique do botão "Cadastrar".
+     */
+    private void cliqueBntCadastrar() {
+        new TelaCadastro();
+        dispose();
     }
 }

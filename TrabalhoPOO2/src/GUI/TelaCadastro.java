@@ -1,5 +1,8 @@
+/**
+ *
+ * @author Leonardo Barchilon - Aluno do último período de Ciência da Computação
+ */
 package GUI;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,12 +17,17 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-
+/**
+ * Esta classe representa a tela de cadastro de usuários.
+ */
 public class TelaCadastro extends JFrame {
     JLabel lblNome, lblSenha;
     JTextField txtNome, txtSenha;
     JButton btnEnviar;
 
+    /**
+     * Constrói uma instância da classe TelaCadastro.
+     */
     public TelaCadastro(){
         setTitle("Cadastro");
         setSize(400, 350);
@@ -34,13 +42,13 @@ public class TelaCadastro extends JFrame {
 
         btnEnviar = new JButton("Cadastrar");
 
-        lblNome.setBounds(20, 20, 100, 20);
-        txtNome.setBounds(20, 40, 100, 20);
+        lblNome.setBounds(150, 10, 100, 30);
+        txtNome.setBounds(150, 40, 100, 30);
 
-        lblSenha.setBounds(20, 60, 100, 20);
-        txtSenha.setBounds(20, 80, 100, 20);
+        lblSenha.setBounds(150, 90, 100, 30);
+        txtSenha.setBounds(150, 120, 100, 30);
 
-        btnEnviar.setBounds(20, 100, 100, 20);
+        btnEnviar.setBounds(150, 200, 100, 55);
 
         btnEnviar.addActionListener(new ActionListener() {
             @Override
@@ -59,13 +67,16 @@ public class TelaCadastro extends JFrame {
 
         // Especificações da Tela
         setSize(400, 350);
-        setTitle("Tela Secundária");
+        setTitle("Tela Cadastro");
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void insereUsuario(){
+    /**
+     * Insere um novo usuário no banco de dados.
+     */
+    public void insereUsuario(){
         MongoClient mongoClient = new MongoClient("localhost", 27017);
         MongoDatabase database = mongoClient.getDatabase("ProjetoPOO2");
         MongoCollection<Document> collection = database.getCollection("usuario");
@@ -75,7 +86,7 @@ public class TelaCadastro extends JFrame {
 
         collection.insertOne(document);
         mongoClient.close();
-    }
-
-
+        new Home();
+        dispose();
+    } 
 }

@@ -1,0 +1,6 @@
+SOFTWARE UTILIZADO:
+MongoDB Compass
+Versão: 4.4.22
+
+NOME DA DATABASE:
+ProjetoPOO2

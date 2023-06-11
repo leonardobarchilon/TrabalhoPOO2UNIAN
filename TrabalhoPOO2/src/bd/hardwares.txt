@@ -1,0 +1,5 @@
+Placa-mae,Servidor,Usado,10,500
+Processador,Desktop,Novo,20,499
+Memoria RAM,Notebook,Novo,2,120
+Monitor,Desktop,Novo,5,900
+Fonte,Servidor,Novo,10,2500
